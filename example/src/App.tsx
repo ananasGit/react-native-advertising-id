@@ -1,17 +1,44 @@
-import { multiply } from 'react-native-advertising-id';
-import { Text, View, StyleSheet } from 'react-native';
-import { useState, useEffect } from 'react';
+import { getAdvertisingId } from 'react-native-advertising-id';
+import { Text, View, StyleSheet, Button, Alert } from 'react-native';
+import { useState } from 'react';
 
 export default function App() {
-  const [result, setResult] = useState<number | undefined>();
+  const [advertisingId, setAdvertisingId] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    multiply(3, 7).then(setResult);
-  }, []);
+  const fetchAdvertisingId = async () => {
+    setLoading(true);
+    try {
+      const adId = await getAdvertisingId();
+      setAdvertisingId(adId);
+
+      if (adId) {
+        Alert.alert('Success', `Advertising ID: ${adId}`);
+      } else {
+        Alert.alert(
+          'Info',
+          'Advertising ID not available (user denied permission or not supported)'
+        );
+      }
+    } catch (error) {
+      console.error('Error getting advertising ID:', error);
+      Alert.alert('Error', 'Failed to get advertising ID');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Button
+        title={loading ? 'Getting ID...' : 'Get Advertising ID'}
+        onPress={fetchAdvertisingId}
+        disabled={loading}
+      />
+
+      {advertisingId ? (
+        <Text style={styles.result}>Advertising ID: {advertisingId}</Text>
+      ) : null}
     </View>
   );
 }
@@ -21,5 +48,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 20,
+  },
+  result: {
+    marginTop: 20,
+    textAlign: 'center',
+    fontSize: 12,
+    fontFamily: 'monospace',
   },
 });
