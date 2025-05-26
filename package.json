@@ -47,14 +47,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://ananas.rs.git"
+    "url": "git+https://github.com/ananasGit/react-native-advertising-id.git"
   },
   "author": "Bogdan Boksan <bogdan.boksan@ananas.rs> (https://ananas.rs)",
   "license": "MIT",
   "bugs": {
-    "url": "https://ananas.rs/issues"
+    "url": "https://github.com/ananasGit/react-native-advertising-id/issues"
   },
-  "homepage": "https://ananas.rs#readme",
+  "homepage": "https://github.com/ananasGit/react-native-advertising-id#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -77,7 +77,7 @@
     "prettier": "^3.0.3",
     "react": "19.0.0",
     "react-native": "0.78.2",
-    "react-native-builder-bob": "^0.40.5",
+    "react-native-builder-bob": "^0.39.1",
     "release-it": "^17.10.0",
     "turbo": "^1.10.7",
     "typescript": "^5.2.2"
