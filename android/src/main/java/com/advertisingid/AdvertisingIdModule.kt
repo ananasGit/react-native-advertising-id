@@ -28,7 +28,15 @@ class AdvertisingIdModule(reactContext: ReactApplicationContext) :
           
           try {
             val adInfo = AdvertisingIdClient.getAdvertisingIdInfo(context)
-            advertisingId = adInfo.id ?: ""
+            
+            // Check if user has disabled ad tracking/personalized ads
+            if (adInfo.isLimitAdTrackingEnabled) {
+              // Return empty string if user has disabled ad tracking
+              advertisingId = ""
+            } else {
+              // Only return the actual ID if user allows ad tracking
+              advertisingId = adInfo.id ?: ""
+            }
           } catch (e: IOException) {
             promise.reject("ERROR", e.message)
           } catch (e: GooglePlayServicesNotAvailableException) {
