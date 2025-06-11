@@ -2,7 +2,6 @@ package com.advertisingid
 
 import android.content.Context
 import android.os.AsyncTask
-import android.util.Log
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
@@ -29,22 +28,14 @@ class AdvertisingIdModule(reactContext: ReactApplicationContext) :
           
           try {
             val adInfo = AdvertisingIdClient.getAdvertisingIdInfo(context)
-            val isLimitEnabled = adInfo.isLimitAdTrackingEnabled()
-            val rawId = adInfo.id ?: ""
-            
-            // Debug logging
-            Log.d("AdvertisingId", "isLimitAdTrackingEnabled: $isLimitEnabled")
-            Log.d("AdvertisingId", "Raw advertising ID: $rawId")
             
             // Check if user has disabled ad tracking/personalized ads
-            if (isLimitEnabled) {
+            if (adInfo.isLimitAdTrackingEnabled()) {
               // Return empty string if user has disabled ad tracking
               advertisingId = ""
-              Log.d("AdvertisingId", "Ad tracking disabled, returning empty string")
             } else {
               // Only return the actual ID if user allows ad tracking
-              advertisingId = rawId
-              Log.d("AdvertisingId", "Ad tracking enabled, returning ID: $advertisingId")
+              advertisingId = adInfo.id ?: ""
             }
           } catch (e: IOException) {
             promise.reject("ERROR", e.message)
