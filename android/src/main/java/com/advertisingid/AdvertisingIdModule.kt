@@ -30,7 +30,7 @@ class AdvertisingIdModule(reactContext: ReactApplicationContext) :
             val adInfo = AdvertisingIdClient.getAdvertisingIdInfo(context)
             
             // Check if user has disabled ad tracking/personalized ads
-            if (adInfo.isLimitAdTrackingEnabled) {
+            if (adInfo.isLimitAdTrackingEnabled()) {
               // Return empty string if user has disabled ad tracking
               advertisingId = ""
             } else {
